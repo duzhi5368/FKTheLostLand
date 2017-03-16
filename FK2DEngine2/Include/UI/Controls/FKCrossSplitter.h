@@ -1,0 +1,68 @@
+/**
+*	created:		2013-4-12   16:12
+*	filename: 		FKCrossSplitter
+*	author:			FreeKnight
+*	Copyright (C): 	
+*	purpose:		
+*/
+//------------------------------------------------------------------------
+#pragma once
+//------------------------------------------------------------------------
+#include "../../FKUIOutSideHead.h"
+#include "FKBase.h"
+#include "FKSplitterBar.h"
+//------------------------------------------------------------------------
+namespace FK2DEngine2
+{
+	namespace Controls
+	{
+		class FK_EXPORT CrossSplitter : public Controls::Base
+		{
+		public:
+
+			FK_CONTROL( CrossSplitter, Controls::Base );
+
+			void Layout( Skin::Base* skin );
+
+			virtual float CalculateValueVertical();
+			virtual float CalculateValueHorizontal();
+			virtual void  CalculateValueCenter();
+			virtual void UpdateHSplitter();
+			virtual void UpdateVSplitter();
+			virtual void UpdateCSplitter();
+			virtual void OnVerticalMoved( Controls::Base* control );
+			virtual void OnHorizontalMoved( Controls::Base* control );
+			virtual void OnCenterMoved( Controls::Base* control );
+
+			virtual void SetPanel( int i, Controls::Base* pPanel );
+			virtual Controls::Base* GetPanel( int i );
+
+			virtual bool IsZoomed() { return m_iZoomedSection != -1; }
+			virtual void Zoom( int section );
+			virtual void UnZoom();
+			virtual void ZoomChanged();
+			virtual void CenterPanels() { m_fHVal = 0.5f; m_fVVal = 0.5f; Invalidate(); }
+
+			virtual void SetSplitterSize( int size ) { m_fBarSize = size; }
+
+		private:
+
+			SplitterBar* m_VSplitter;
+			SplitterBar* m_HSplitter;
+			SplitterBar* m_CSplitter;
+
+			Controls::Base* m_Sections[4];
+
+			float	m_fHVal;
+			float	m_fVVal;
+			int		m_fBarSize;
+
+			char		m_iZoomedSection;
+
+			FK2DEngine2::Event::Caller	onZoomed;
+			FK2DEngine2::Event::Caller	onUnZoomed;
+			FK2DEngine2::Event::Caller	onZoomChange;
+		};
+	}
+}
+//------------------------------------------------------------------------
